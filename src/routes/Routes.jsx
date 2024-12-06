@@ -1,3 +1,4 @@
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
@@ -5,7 +6,6 @@ import Login from "../pages/Login";
 import MovieDetails from "../pages/MovieDetails";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
-import { createBrowserRouter } from "react-router-dom";
 
 export const routes = createBrowserRouter([
   {
@@ -13,32 +13,35 @@ export const routes = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "/home",
-        element: <Home></Home>,
+        index: true,
+        element: <Navigate to="/home" replace />,
       },
       {
-        path: "/movie/:id",
-        element: <MovieDetails></MovieDetails>,
+        path: "home",
+        element: <Home />,
+      },
+      {
+        path: "movie/:id",
+        element: <MovieDetails />,
       },
     ],
   },
-
   {
     path: "/auth",
     element: <AuthLayout />,
     children: [
       {
-        path: "/auth/login",
-        element: <Login></Login>,
+        path: "login",
+        element: <Login />,
       },
       {
-        path: "/auth/register",
-        element: <Register></Register>,
+        path: "register",
+        element: <Register />,
       },
     ],
   },
   {
     path: "*",
-    element: <NotFound></NotFound>,
+    element: <NotFound />,
   },
 ]);
