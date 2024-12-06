@@ -24,19 +24,19 @@ export const routes = createBrowserRouter([
         path: "movie/:id",
         element: <MovieDetails />,
       },
-    ],
-  },
-  {
-    path: "/auth",
-    element: <AuthLayout />,
-    children: [
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
+        path: "auth",
+        element: <AuthLayout />,
+        children: [
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "register",
+            element: <Register />,
+          },
+        ],
       },
     ],
   },
