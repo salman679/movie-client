@@ -107,10 +107,11 @@ export default function Register() {
                 showConfirmButton: true,
                 timer: 1500,
               });
+
+              setUser(res.user);
             }
           })
           .catch((error) => Swal.fire("Error", error.message, "error"));
-        setUser(res.user);
       })
       .catch((error) => {
         Swal.fire("Error", error.message, "error");
