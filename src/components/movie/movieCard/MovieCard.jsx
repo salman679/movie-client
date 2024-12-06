@@ -24,8 +24,8 @@ MovieCard.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     duration: PropTypes.string.isRequired,
-    releaseYear: PropTypes.string.isRequired,
-    rating: PropTypes.string.isRequired,
+    releaseYear: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
 };
