@@ -1,6 +1,29 @@
 import { FaUserCircle } from "react-icons/fa";
+import { AuthContext } from "../../context/AllContext";
+import { useContext } from "react";
+import Swal from "sweetalert2";
 
 export default function Header() {
+  const { user, Logout } = useContext(AuthContext);
+
+  function handleLogout() {
+    Logout()
+      .then(() => {
+        return Swal.fire({
+          icon: "success",
+          title: "Logout Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
+      });
+  }
   return (
     <header className="bg-blue-600 text-white shadow-md">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
@@ -32,13 +55,24 @@ export default function Header() {
 
         {/* User Section */}
         <div className="flex items-center space-x-4">
-          <button className="hover:text-blue-300">Login</button>
-          <button className="hover:text-blue-300">Register</button>
+          {user ? (
+            <button className="hover:text-blue-300" onClick={handleLogout}>
+              Logout
+            </button>
+          ) : (
+            <button className="hover:text-blue-300">Register</button>
+          )}
+
           {/* Example User Icon */}
-          <FaUserCircle
-            className="text-2xl cursor-pointer"
-            title="User Profile"
-          />
+          {user ? (
+            <img
+              src={user.photoUrl}
+              alt="User"
+              className="w-10 h-10 rounded-full"
+            />
+          ) : (
+            <FaUserCircle className="text-2xl cursor-pointer" />
+          )}
         </div>
 
         {/* Mobile Menu Icon */}

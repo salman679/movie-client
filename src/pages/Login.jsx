@@ -1,11 +1,90 @@
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AllContext";
+import Swal from "sweetalert2";
+import { Navigate } from "react-router-dom";
+
 export default function Login() {
+  const { signIn, setUser, signInWithGoogle } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    const user = { email, password };
+
+    if (!email) {
+      setErrorMessage("Email is required");
+      return;
+    } else if (!password) {
+      setErrorMessage("Password is required");
+      return;
+    }
+
+    signIn(user)
+      .then((res) => {
+        setUser(res.user);
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        Navigate("/home");
+        e.target.reset();
+      })
+      .catch((error) => {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then((res) => {
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(res.user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              setUser(res.user);
+              Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              Navigate("/home");
+            }
+          });
+      })
+      .catch((error) => {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
+      });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Login to Your Account
         </h2>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="email"
@@ -21,6 +100,9 @@ export default function Login() {
               className="mt-1 w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+            )}
           </div>
           <div>
             <label
@@ -37,6 +119,9 @@ export default function Login() {
               className="mt-1 w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+            )}
           </div>
           <button
             type="submit"
@@ -45,6 +130,19 @@ export default function Login() {
             Login
           </button>
         </form>
+
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Or login with{" "}
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className="text-blue-500 hover:underline"
+            >
+              Google
+            </button>
+          </p>
+        </div>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don&apos;t have an account?{" "}

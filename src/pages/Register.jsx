@@ -42,15 +42,14 @@ export default function Register() {
       );
     }
 
-    if (user.password)
-      if (user.password !== confirmPassword) {
-        return Swal.fire({
-          icon: "error",
-          title: "Passwords do not match",
-          showConfirmButton: true,
-          timer: 1500,
-        });
-      }
+    if (user.password !== confirmPassword) {
+      return Swal.fire({
+        icon: "error",
+        title: "Passwords do not match",
+        showConfirmButton: true,
+        timer: 1500,
+      });
+    }
 
     createUser(user).then(() => {
       const userForDB = { name, email, photoUrl };
@@ -83,7 +82,14 @@ export default function Register() {
   function handleGoogleLogin() {
     signInWithGoogle()
       .then((res) => {
-        console.log(res.user);
+        if (!res.user) {
+          return Swal.fire({
+            icon: "error",
+            title: "User not found",
+            showConfirmButton: true,
+            timer: 1500,
+          });
+        }
 
         const userForDB = {
           name: res.user.displayName,
@@ -99,16 +105,16 @@ export default function Register() {
 
           body: JSON.stringify(userForDB),
         })
-          .then((res) => {
-            if (res.status === 200) {
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              setUser(userForDB);
               Swal.fire({
                 icon: "success",
-                title: "Login Successful",
+                title: "Account Created Successfully",
                 showConfirmButton: true,
                 timer: 1500,
               });
-
-              setUser(res.user);
             }
           })
           .catch((error) => Swal.fire("Error", error.message, "error"));
