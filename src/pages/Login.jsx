@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AllContext";
 import Swal from "sweetalert2";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export default function Login() {
   const { signIn, setUser, signInWithGoogle } = useContext(AuthContext);
@@ -122,6 +122,12 @@ export default function Login() {
             {errorMessage && (
               <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
             )}
+            <Link
+              // to="/auth/forget-password"
+              className="text-sm text-blue-500 hover:underline"
+            >
+              Forget Password?
+            </Link>
           </div>
           <button
             type="submit"

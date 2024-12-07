@@ -2,6 +2,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../context/AllContext";
 import { useContext } from "react";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
@@ -42,7 +43,7 @@ export default function Header() {
           <a href="/movies" className="hover:text-blue-300">
             All Movies
           </a>
-          <a href="/add-movie" className="hover:text-blue-300">
+          <a href="/addMovie" className="hover:text-blue-300">
             Add Movie
           </a>
           <a href="/favorites" className="hover:text-blue-300">
@@ -60,7 +61,9 @@ export default function Header() {
               Logout
             </button>
           ) : (
-            <button className="hover:text-blue-300">Register</button>
+            <Link to="/auth/login" className="hover:text-blue-300">
+              Login
+            </Link>
           )}
 
           {/* Example User Icon */}

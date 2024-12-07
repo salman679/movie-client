@@ -6,6 +6,9 @@ import Login from "../pages/Login";
 import MovieDetails from "../pages/MovieDetails";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
+import AddMovie from "../pages/AddMovie";
+import PrivateRoutes from "./PrivateRoutes";
+import Favorite from "../pages/Favorite";
 
 export const routes = createBrowserRouter([
   {
@@ -19,6 +22,22 @@ export const routes = createBrowserRouter([
       {
         path: "home",
         element: <Home />,
+      },
+      {
+        path: "/addMovie",
+        element: (
+          <PrivateRoutes>
+            <AddMovie />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/favorite",
+        element: (
+          <PrivateRoutes>
+            <Favorite />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "movie/:id",
