@@ -6,8 +6,10 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <div className="container min-h-screen mx-auto px-6">
-        <Outlet />
+      <div className="dark:bg-gray-800 dark:text-white">
+        <div className="container min-h-screen mx-auto px-6 ">
+          <Outlet />
+        </div>
       </div>
       <Footer />
     </>

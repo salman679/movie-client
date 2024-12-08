@@ -7,7 +7,11 @@ export default function PrivateRoutes({ children }) {
   const { user } = useContext(AuthContext);
 
   if (!user) {
-    return <p>loading</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    );
   }
 
   return children;

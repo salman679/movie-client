@@ -1,18 +1,36 @@
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 export default function Favorite() {
-  useEffect(() => {
-    fetch("https://movie-server-henna.vercel.app/favorites")
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const { user } = useContext(AuthContext);
+
+  function handleDeleteFavorite(id) {
+    fetch(`http://localhost:5000/favorites/${user.email}/${id}`, {
+      method: "DELETE",
+    })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.deletedCount > 0) {
+          Swal.fire("Deleted!", "The movie has been deleted.", "success");
+        }
+      })
+      .catch((error) => console.error("Error deleting movie:", error));
+  }
+
+  useEffect(() => {
+    fetch("http://localhost:5000/favorites/" + user.email)
+      .then((res) => res.json())
+      .then((data) => {
+        setFavoriteMovies(data);
       })
       .catch((error) =>
         console.error("Error fetching favorite movies:", error)
       );
   });
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-800 py-10">
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">
           Your Favorite Movies
@@ -20,8 +38,8 @@ export default function Favorite() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {favoriteMovies.map((movie) => (
             <div
-              key={movie.id}
-              className="bg-white shadow-md rounded-lg overflow-hidden"
+              key={movie._id}
+              className="bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-hidden"
             >
               <img
                 src={movie.poster}
@@ -43,7 +61,7 @@ export default function Favorite() {
                   <strong>Rating:</strong> {movie.rating}/5
                 </p>
                 <button
-                  onClick={() => handleDeleteFavorite(movie.id)}
+                  onClick={() => handleDeleteFavorite(movie._id)}
                   className="mt-4 w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
                 >
                   Delete Favorite

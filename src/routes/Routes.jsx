@@ -9,6 +9,9 @@ import Register from "../pages/Register";
 import AddMovie from "../pages/AddMovie";
 import PrivateRoutes from "./PrivateRoutes";
 import Favorite from "../pages/Favorite";
+import AllMovies from "../pages/AllMovies";
+import AboutUs from "../components/aboutUs/AboutUs";
+import UpdateMovie from "../components/updateMovie/UpdateMovie";
 
 export const routes = createBrowserRouter([
   {
@@ -24,6 +27,10 @@ export const routes = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/all-movies",
+        element: <AllMovies />,
+      },
+      {
         path: "/add-movie",
         element: (
           <PrivateRoutes>
@@ -32,7 +39,15 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/my-favorite",
+        path: "/update-movie/:id",
+        element: (
+          <PrivateRoutes>
+            <UpdateMovie />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/my-favorites/:email",
         element: (
           <PrivateRoutes>
             <Favorite />
@@ -61,8 +76,14 @@ export const routes = createBrowserRouter([
           },
         ],
       },
+
+      {
+        path: "/about-us",
+        element: <AboutUs />,
+      },
     ],
   },
+
   {
     path: "*",
     element: <NotFound />,

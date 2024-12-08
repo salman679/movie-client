@@ -29,37 +29,39 @@ const MovieCarousel = () => {
   ];
 
   return (
-    <div className="container mx-auto px-6">
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
-        loop={true}
-        className="rounded-lg overflow-hidden"
-      >
-        {banners.map((banner, index) => (
-          <SwiperSlide key={index}>
-            <div
-              className="relative h-[600px] bg-cover bg-center"
-              style={{ backgroundImage: `url(${banner.image})` }}
-            >
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center">
-                <div className="pl-24">
-                  <div className="flex flex-col justify-center">
-                    <h2 className="text-7xl text-white font-bold">
-                      {banner.title}
-                    </h2>
-                    <p className="text-white text-2xl mt-2">
-                      {banner.description}
-                    </p>
+    <div className="">
+      <div className="container mx-auto px-6 ">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          loop={true}
+          className="rounded-lg overflow-hidden"
+        >
+          {banners.map((banner, index) => (
+            <SwiperSlide key={index}>
+              <div
+                className="relative h-[600px] bg-cover bg-center"
+                style={{ backgroundImage: `url(${banner.image})` }}
+              >
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center">
+                  <div className="pl-24">
+                    <div className="flex flex-col justify-center">
+                      <h2 className="text-7xl text-white font-bold">
+                        {banner.title}
+                      </h2>
+                      <p className="text-white text-2xl mt-2">
+                        {banner.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 };
