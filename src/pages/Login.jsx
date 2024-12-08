@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AllContext";
 import Swal from "sweetalert2";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { signIn, setUser, signInWithGoogle } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ export default function Login() {
           timer: 1500,
         });
 
-        Navigate("/home");
+        navigate("/home");
         e.target.reset();
       })
       .catch((error) => {
@@ -47,7 +49,7 @@ export default function Login() {
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((res) => {
-        fetch("http://localhost:5000/users", {
+        fetch("https://movie-server-henna.vercel.app/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -55,17 +57,19 @@ export default function Login() {
 
           body: JSON.stringify(res.user),
         })
-          .then((res) => res.json())
+          .then((res) => console.log(res))
           .then((data) => {
+            console.log(data);
+
             if (data.insertedId) {
               setUser(res.user);
+              navigate("/home");
               Swal.fire({
                 icon: "success",
                 title: "Login Successful",
                 showConfirmButton: false,
                 timer: 1500,
               });
-              Navigate("/home");
             }
           });
       })

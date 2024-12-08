@@ -2,11 +2,14 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AllContext";
 import { IoEyeOffSharp, IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const { createUser, setUser, signInWithGoogle } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -54,7 +57,7 @@ export default function Register() {
     createUser(user).then(() => {
       const userForDB = { name, email, photoUrl };
 
-      fetch("http://localhost:5000/users", {
+      fetch("https://movie-server-henna.vercel.app/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +75,7 @@ export default function Register() {
             });
 
             setUser(userForDB);
+            navigate("/home");
             event.target.reset();
           }
         })
@@ -82,6 +86,8 @@ export default function Register() {
   function handleGoogleLogin() {
     signInWithGoogle()
       .then((res) => {
+        console.log(res);
+
         if (!res.user) {
           return Swal.fire({
             icon: "error",
@@ -97,7 +103,7 @@ export default function Register() {
           photoUrl: res.user.photoURL,
         };
 
-        fetch("http://localhost:5000/users", {
+        fetch("https://movie-server-henna.vercel.app/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -107,14 +113,17 @@ export default function Register() {
         })
           .then((res) => res.json())
           .then((data) => {
+            console.log(data);
+
             if (data.insertedId) {
-              setUser(userForDB);
               Swal.fire({
                 icon: "success",
                 title: "Account Created Successfully",
                 showConfirmButton: true,
                 timer: 1500,
               });
+              setUser(userForDB);
+              navigate("/home");
             }
           })
           .catch((error) => Swal.fire("Error", error.message, "error"));

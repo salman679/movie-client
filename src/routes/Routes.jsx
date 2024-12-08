@@ -24,7 +24,7 @@ export const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/addMovie",
+        path: "/add-movie",
         element: (
           <PrivateRoutes>
             <AddMovie />
@@ -32,7 +32,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/favorite",
+        path: "/my-favorite",
         element: (
           <PrivateRoutes>
             <Favorite />

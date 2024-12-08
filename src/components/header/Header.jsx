@@ -1,12 +1,12 @@
-import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../context/AllContext";
-import { useContext } from "react";
 import Swal from "sweetalert2";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
 
+  // // Logout Function
   function handleLogout() {
     Logout()
       .then(() => {
@@ -25,80 +25,140 @@ export default function Header() {
         });
       });
   }
+
   return (
-    <header className="bg-blue-600 text-white shadow-md">
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        {/* Logo */}
-        <div className="text-2xl font-bold">
-          <a href="/" className="hover:text-blue-300">
-            Movie Portal
-          </a>
-        </div>
-
-        {/* Navigation Links */}
-        <nav className="hidden md:flex space-x-6">
-          <a href="/" className="hover:text-blue-300">
-            Home
-          </a>
-          <a href="/movies" className="hover:text-blue-300">
-            All Movies
-          </a>
-          <a href="/addMovie" className="hover:text-blue-300">
-            Add Movie
-          </a>
-          <a href="/favorites" className="hover:text-blue-300">
-            My Favorites
-          </a>
-          <a href="/extra" className="hover:text-blue-300">
-            Extra Page
-          </a>
-        </nav>
-
-        {/* User Section */}
-        <div className="flex items-center space-x-4">
-          {user ? (
-            <button className="hover:text-blue-300" onClick={handleLogout}>
-              Logout
-            </button>
-          ) : (
-            <Link to="/auth/login" className="hover:text-blue-300">
-              Login
-            </Link>
-          )}
-
-          {/* Example User Icon */}
-          {user ? (
-            <img
-              src={user.photoUrl}
-              alt="User"
-              className="w-10 h-10 rounded-full"
-            />
-          ) : (
-            <FaUserCircle className="text-2xl cursor-pointer" />
-          )}
-        </div>
-
-        {/* Mobile Menu Icon */}
-        <div className="md:hidden flex items-center">
-          <button className="text-white hover:text-blue-300">
-            {/* Mobile menu icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
+    <>
+      <div className="navbar bg-base-100 container mx-auto flex justify-between items-center py-4 px-6">
+        <div className="navbar-start w-auto">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"
-              />
-            </svg>
-          </button>
+              <li>
+                <Link to="/" className="hover:text-blue-300">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/movies" className="hover:text-blue-300">
+                  All Movies
+                </Link>
+              </li>
+              <li>
+                <Link to="/add-movie" className="hover:text-blue-300">
+                  Add Movie
+                </Link>
+              </li>
+              <li>
+                <Link to="/favorites" className="hover:text-blue-300">
+                  My Favorites
+                </Link>
+              </li>
+              <li>
+                <Link to="/extra" className="hover:text-blue-300">
+                  Extra Page
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <a className="btn btn-ghost text-xl">Movie Portal</a>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <Link to="/" className="">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/movies" className="">
+                All Movies
+              </Link>
+            </li>
+            <li>
+              <Link to="/add-movie" className="">
+                Add Movie
+              </Link>
+            </li>
+            <li>
+              <Link to="/my-favorites" className="">
+                My Favorites
+              </Link>
+            </li>
+            <li>
+              <Link to="/extra" className="">
+                Extra Page
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="flex-none gap-2">
+          <div className="form-control">
+            <input
+              type="text"
+              placeholder="Search"
+              className="input input-bordered "
+            />
+          </div>
+
+          {user ? (
+            <div className="dropdown dropdown-end group">
+              {/* Avatar Button */}
+              <div role="button" className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Avatar"
+                    src={`${
+                      user.photoURL ||
+                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    }`}
+                  />
+                </div>
+              </div>
+
+              {/* Dropdown Menu */}
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 w-52 p-2 shadow opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
+              >
+                <li>
+                  <a className="justify-between">{user.displayName}</a>
+                </li>
+                <li>
+                  <Link onClick={handleLogout}>Logout</Link>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <>
+              <Link to="/auth/login">
+                <button className="btn">Login</button>
+              </Link>
+
+              <Link to="/auth/register">
+                <button className="btn">Register </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
-    </header>
+    </>
   );
 }

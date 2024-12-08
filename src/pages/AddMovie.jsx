@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Rating } from "react-simple-star-rating";
 import Swal from "sweetalert2";
+import Rating from "@mui/material/Rating";
 
 export default function AddMovie() {
   const [rating, setRating] = useState(0);
@@ -47,7 +47,7 @@ export default function AddMovie() {
     }
 
     //send data to server
-    fetch("http://localhost:5000/addMovie", {
+    fetch("https://movie-server-henna.vercel.app/add-movie", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export default function AddMovie() {
         }
 
         event.target.reset();
-        setRating(0);
+
         setErrorMessage({});
       })
       .catch((error) => {
@@ -80,9 +80,6 @@ export default function AddMovie() {
 
   console.log(errorMessage);
 
-  function handleRating(rate) {
-    setRating(rate);
-  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
@@ -218,16 +215,12 @@ export default function AddMovie() {
             </label>
             <div className="flex items-center space-x-2">
               <Rating
-                onClick={handleRating}
-                ratingValue={rating}
-                size={30} // Adjust star size
-                fillColor="gold" // Color of selected stars
-                emptyColor="#e4e5e9" // Color of unselected stars
-                className="block"
+                name="simple-controlled"
+                value={rating}
+                onChange={(event, newValue) => {
+                  setRating(newValue);
+                }}
               />
-              <span className="text-sm text-gray-600">
-                {rating > 0 ? `${rating / 20} Stars` : "Select a rating"}
-              </span>
             </div>
             {errorMessage.rating && (
               <p className="text-red-500 text-sm mt-1">{errorMessage.rating}</p>
