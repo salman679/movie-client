@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AuthContext } from "../context/AllContext";
+import { AuthContext } from "../context/AuthContext";
 import PropTypes from "prop-types";
 import {
   createUserWithEmailAndPassword,

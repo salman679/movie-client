@@ -16,8 +16,6 @@ const MovieSection = () => {
       .catch((error) => console.error("Error fetching movies:", error));
   }, []);
 
-  // Component to render a single movie card
-
   return (
     <div className="container mx-auto px-4">
       {/* Featured Movies */}

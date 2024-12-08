@@ -6,7 +6,7 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <div className="container mx-auto px-6">
+      <div className="container min-h-screen mx-auto px-6">
         <Outlet />
       </div>
       <Footer />

@@ -41,7 +41,11 @@ export const routes = createBrowserRouter([
       },
       {
         path: "movie/:id",
-        element: <MovieDetails />,
+        element: (
+          <PrivateRoutes>
+            <MovieDetails />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "auth",

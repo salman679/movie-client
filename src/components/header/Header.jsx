@@ -1,14 +1,15 @@
-import { AuthContext } from "../../context/AllContext";
+import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
+  const { isDarkMode, toggleTheme } = useTheme();
 
-  console.log(user);
-
-  // // Logout Function
+  // Logout Function
   function handleLogout() {
     Logout()
       .then(() => {
@@ -123,6 +124,13 @@ export default function Header() {
               className="input input-bordered "
             />
           </div>
+
+          <button
+            onClick={toggleTheme}
+            className="btn btn-circle bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
+          >
+            {isDarkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
+          </button>
 
           {user ? (
             <div className="dropdown dropdown-end group">
