@@ -15,7 +15,7 @@ export default function UpdateMovie() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/movie/${id}`)
+    fetch(`https://movie-server-henna.vercel.app/movie/${id}`)
       .then((res) => res.json())
       .then((data) => setFormData(data))
       .catch((error) => console.error("Error fetching movie data:", error));
@@ -29,7 +29,7 @@ export default function UpdateMovie() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`http://localhost:5000/movie/${id}`, {
+    fetch(`https://movie-server-henna.vercel.app/movie/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

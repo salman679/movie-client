@@ -11,7 +11,7 @@ export default function AllMovies() {
 
   // Fetch all movies from the server
   useEffect(() => {
-    fetch("http://localhost:5000/all-movies")
+    fetch("https://movie-server-henna.vercel.app/all-movies")
       .then((res) => res.json())
       .then((data) => {
         const userMovies = data.filter((movie) => movie.user === user.email);

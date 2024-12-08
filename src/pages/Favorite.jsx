@@ -7,9 +7,12 @@ export default function Favorite() {
   const { user } = useContext(AuthContext);
 
   function handleDeleteFavorite(id) {
-    fetch(`http://localhost:5000/favorites/${user.email}/${id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://movie-server-henna.vercel.app/favorites/${user.email}/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.deletedCount > 0) {
@@ -20,7 +23,7 @@ export default function Favorite() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/favorites/" + user.email)
+    fetch("https://movie-server-henna.vercel.app/favorites/" + user.email)
       .then((res) => res.json())
       .then((data) => {
         setFavoriteMovies(data);
