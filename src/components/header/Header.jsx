@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
 
+  console.log(user);
+
   // // Logout Function
   function handleLogout() {
     Logout()
@@ -92,16 +94,20 @@ export default function Header() {
                 All Movies
               </Link>
             </li>
-            <li>
-              <Link to="/add-movie" className="">
-                Add Movie
-              </Link>
-            </li>
-            <li>
-              <Link to="/my-favorites" className="">
-                My Favorites
-              </Link>
-            </li>
+            {user && (
+              <>
+                <li>
+                  <Link to="/add-movie" className="">
+                    Add Movie
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/my-favorites" className="">
+                    My Favorites
+                  </Link>
+                </li>
+              </>
+            )}
             <li>
               <Link to="/extra" className="">
                 Extra Page
@@ -127,6 +133,7 @@ export default function Header() {
                     alt="Avatar"
                     src={`${
                       user.photoURL ||
+                      user.photoUrl ||
                       "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                     }`}
                   />
@@ -139,7 +146,9 @@ export default function Header() {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 w-52 p-2 shadow opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
               >
                 <li>
-                  <a className="justify-between">{user.displayName}</a>
+                  <a className="justify-between">
+                    {user.displayName || user.name}
+                  </a>
                 </li>
                 <li>
                   <Link onClick={handleLogout}>Logout</Link>

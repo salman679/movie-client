@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { Auth } from "../firebase/firebase.config";
 
@@ -22,6 +23,12 @@ export default function AuthProvider({ children }) {
     setUser(user);
     setLoading(false);
     return createUserWithEmailAndPassword(Auth, user.email, user.password);
+  }
+
+  function updateUser(user) {
+    setUser(user);
+    setLoading(false);
+    return updateProfile(Auth.currentUser, user);
   }
 
   function signIn(user) {
@@ -61,6 +68,7 @@ export default function AuthProvider({ children }) {
         loading,
         setLoading,
         createUser,
+        updateUser,
         signIn,
         Logout,
         signInWithGoogle,

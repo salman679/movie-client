@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const { createUser, setUser, signInWithGoogle } = useContext(AuthContext);
+  const { updateUser, createUser, signInWithGoogle } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -19,11 +19,10 @@ export default function Register() {
     const email = formData.get("email");
     const photoUrl = formData.get("photoUrl");
     const password = formData.get("password");
-    const confirmPassword = formData.get("confirmPassword");
 
-    const user = { name, email, password };
+    const user = { displayName: name, email, password, photoURL: photoUrl };
 
-    if (!user.name || !user.email || !user.password) {
+    if (!user.displayName || !user.email || !user.password) {
       return Swal.fire({
         icon: "error",
         title: "All fields are required",
@@ -45,88 +44,26 @@ export default function Register() {
       );
     }
 
-    if (user.password !== confirmPassword) {
-      return Swal.fire({
-        icon: "error",
-        title: "Passwords do not match",
-        showConfirmButton: true,
-        timer: 1500,
-      });
-    }
-
     createUser(user).then(() => {
-      const userForDB = { name, email, photoUrl };
+      updateUser(user).then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
-      fetch("https://movie-server-henna.vercel.app/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify(userForDB),
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            Swal.fire({
-              icon: "success",
-              title: "Account Created Successfully",
-              showConfirmButton: true,
-              timer: 1500,
-            });
-
-            setUser(userForDB);
-            navigate("/home");
-            event.target.reset();
-          }
-        })
-        .catch((error) => Swal.fire("Error", error.message, "error"));
+        navigate("/home");
+        event.target.reset();
+      });
     });
   }
 
   function handleGoogleLogin() {
     signInWithGoogle()
-      .then((res) => {
-        console.log(res);
-
-        if (!res.user) {
-          return Swal.fire({
-            icon: "error",
-            title: "User not found",
-            showConfirmButton: true,
-            timer: 1500,
-          });
-        }
-
-        const userForDB = {
-          name: res.user.displayName,
-          email: res.user.email,
-          photoUrl: res.user.photoURL,
-        };
-
-        fetch("https://movie-server-henna.vercel.app/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify(userForDB),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-
-            if (data.insertedId) {
-              Swal.fire({
-                icon: "success",
-                title: "Account Created Successfully",
-                showConfirmButton: true,
-                timer: 1500,
-              });
-              setUser(userForDB);
-              navigate("/home");
-            }
-          })
-          .catch((error) => Swal.fire("Error", error.message, "error"));
+      .then(() => {
+        Swal.fire("Success", "Login Successful", "success");
+        navigate("/home");
       })
       .catch((error) => {
         Swal.fire("Error", error.message, "error");
@@ -180,7 +117,7 @@ export default function Register() {
               Photo Url
             </label>
             <input
-              type="text"
+              type="url"
               id="photoUrl"
               name="photoUrl"
               placeholder="Enter your Photo Url"
@@ -216,29 +153,7 @@ export default function Register() {
               <p className="text-red-500 text-xs mt-1">{errorMessage}</p>
             )}
           </div>
-          <div className="relative">
-            <label
-              htmlFor="confirm-password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Confirm Password
-            </label>
-            <input
-              type={`${showPassword ? "text" : "password"}`}
-              id="confirm-password"
-              name="confirmPassword"
-              placeholder="Re-enter your password"
-              className="mt-1 w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-11 right-4 transform -translate-y-1/2 text-lg text-gray-500 hover:text-gray-700"
-            >
-              {showPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
-            </button>
-          </div>
+
           <button
             type="submit"
             className="w-full bg-green-600 text-white font-medium py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"

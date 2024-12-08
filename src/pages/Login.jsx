@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { signIn, setUser, signInWithGoogle } = useContext(AuthContext);
+  const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
@@ -25,8 +25,7 @@ export default function Login() {
     }
 
     signIn(user)
-      .then((res) => {
-        setUser(res.user);
+      .then(() => {
         Swal.fire({
           icon: "success",
           title: "Login Successful",
@@ -48,30 +47,9 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     signInWithGoogle()
-      .then((res) => {
-        fetch("https://movie-server-henna.vercel.app/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify(res.user),
-        })
-          .then((res) => console.log(res))
-          .then((data) => {
-            console.log(data);
-
-            if (data.insertedId) {
-              setUser(res.user);
-              navigate("/home");
-              Swal.fire({
-                icon: "success",
-                title: "Login Successful",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-            }
-          });
+      .then(() => {
+        Swal.fire("Success", "Login Successful", "success");
+        navigate("/home");
       })
       .catch((error) => {
         return Swal.fire({
