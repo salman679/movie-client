@@ -1,52 +1,31 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Rating from "@mui/material/Rating";
 
 export default function AddMovie() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const [rating, setRating] = useState(0);
-  const [errorMessage, setErrorMessage] = useState({});
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  const onSubmit = (data) => {
+    // Combine form data with rating
+    const movie = { ...data, rating };
 
-    //reset error message
-    setErrorMessage({});
-
-    const formData = new FormData(event.target);
-    const movie = {
-      poster: formData.get("poster"),
-      title: formData.get("title"),
-      genre: formData.get("genre"),
-      duration: formData.get("duration"),
-      releaseYear: formData.get("releaseYear"),
-      rating: rating,
-      description: formData.get("description"),
-    };
-
-    //validation
-    const errors = {};
-    if (!movie.poster.startsWith("http")) {
-      errors.poster = "Please enter a valid URL";
-    } else if (!movie.title || movie.title.length < 2) {
-      errors.title = "Title must be at least 2 characters!";
-    } else if (!movie.genre) {
-      errors.genre = "Genre is required!";
-    } else if (!movie.duration || movie.duration < 60) {
-      errors.duration = "Duration must be at least 60 minutes!";
-    } else if (!movie.releaseYear) {
-      errors.releaseYear = "Please select a release year!";
-    } else if (movie.rating === 0) {
-      errors.rating = "Please select a rating!";
-    } else if (movie.description.length < 10) {
-      errors.description = "description must be at least 10 characters!";
+    // Validation for rating
+    if (rating === 0) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please select a rating!",
+      });
     }
 
-    if (Object.keys(errors).length > 0) {
-      setErrorMessage(errors);
-      return;
-    }
-
-    //send data to server
+    // Send data to server
     fetch("https://movie-server-henna.vercel.app/add-movie", {
       method: "POST",
       headers: {
@@ -63,22 +42,18 @@ export default function AddMovie() {
             showConfirmButton: false,
             timer: 1500,
           });
+          reset();
+          setRating(0);
         }
-
-        event.target.reset();
-
-        setErrorMessage({});
       })
-      .catch((error) => {
-        return Swal.fire({
+      .catch((error) =>
+        Swal.fire({
           icon: "error",
           title: "Oops...",
           text: error.message,
-        });
-      });
-  }
-
-  console.log(errorMessage);
+        })
+      );
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -86,7 +61,7 @@ export default function AddMovie() {
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Add a New Movie
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Movie Poster */}
           <div>
             <label
@@ -98,16 +73,23 @@ export default function AddMovie() {
             <input
               type="url"
               id="poster"
-              name="poster"
+              {...register("poster", {
+                required: "Poster URL is required",
+                pattern: {
+                  value: /^https?:\/\/.+$/,
+                  message: "Please enter a valid URL",
+                },
+              })}
               placeholder="Enter poster link"
               className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
             />
-
-            {errorMessage.poster && (
-              <p className="text-red-500 text-sm mt-1">{errorMessage.poster}</p>
+            {errors.poster && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.poster.message}
+              </p>
             )}
           </div>
+
           {/* Movie Title */}
           <div>
             <label
@@ -119,16 +101,23 @@ export default function AddMovie() {
             <input
               type="text"
               id="title"
-              name="title"
+              {...register("title", {
+                required: "Title is required",
+                minLength: {
+                  value: 2,
+                  message: "Title must be at least 2 characters",
+                },
+              })}
               placeholder="Enter movie title"
               className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
             />
-
-            {errorMessage.title && (
-              <p className="text-red-500 text-sm mt-1">{errorMessage.title}</p>
+            {errors.title && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.title.message}
+              </p>
             )}
           </div>
+
           {/* Genre */}
           <div>
             <label
@@ -139,9 +128,8 @@ export default function AddMovie() {
             </label>
             <select
               id="genre"
-              name="genre"
+              {...register("genre", { required: "Genre is required" })}
               className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
             >
               <option value="">Select a genre</option>
               <option value="comedy">Comedy</option>
@@ -150,11 +138,13 @@ export default function AddMovie() {
               <option value="action">Action</option>
               <option value="thriller">Thriller</option>
             </select>
-
-            {errorMessage.genre && (
-              <p className="text-red-500 text-sm mt-1">{errorMessage.genre}</p>
+            {errors.genre && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.genre.message}
+              </p>
             )}
           </div>
+
           {/* Duration */}
           <div>
             <label
@@ -166,18 +156,23 @@ export default function AddMovie() {
             <input
               type="number"
               id="duration"
-              name="duration"
-              min="60"
+              {...register("duration", {
+                required: "Duration is required",
+                min: {
+                  value: 60,
+                  message: "Duration must be at least 60 minutes",
+                },
+              })}
               placeholder="Enter duration in minutes"
               className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
             />
-            {errorMessage.duration && (
+            {errors.duration && (
               <p className="text-red-500 text-sm mt-1">
-                {errorMessage.duration}
+                {errors.duration.message}
               </p>
             )}
           </div>
+
           {/* Release Year */}
           <div>
             <label
@@ -188,9 +183,10 @@ export default function AddMovie() {
             </label>
             <select
               id="releaseYear"
-              name="releaseYear"
+              {...register("releaseYear", {
+                required: "Release year is required",
+              })}
               className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
             >
               <option value="">Select release year</option>
               <option value="2024">2024</option>
@@ -198,13 +194,13 @@ export default function AddMovie() {
               <option value="2022">2022</option>
               <option value="2021">2021</option>
             </select>
-
-            {errorMessage.releaseYear && (
+            {errors.releaseYear && (
               <p className="text-red-500 text-sm mt-1">
-                {errorMessage.releaseYear}
+                {errors.releaseYear.message}
               </p>
             )}
           </div>
+
           {/* Rating */}
           <div>
             <label
@@ -213,18 +209,11 @@ export default function AddMovie() {
             >
               Rating
             </label>
-            <div className="flex items-center space-x-2">
-              <Rating
-                name="simple-controlled"
-                value={rating}
-                onChange={(event, newValue) => {
-                  setRating(newValue);
-                }}
-              />
-            </div>
-            {errorMessage.rating && (
-              <p className="text-red-500 text-sm mt-1">{errorMessage.rating}</p>
-            )}
+            <Rating
+              name="rating"
+              value={rating}
+              onChange={(event, newValue) => setRating(newValue)}
+            />
           </div>
 
           {/* Description */}
@@ -237,18 +226,24 @@ export default function AddMovie() {
             </label>
             <textarea
               id="description"
-              name="description"
+              {...register("description", {
+                required: "Description is required",
+                minLength: {
+                  value: 10,
+                  message: "Description must be at least 10 characters",
+                },
+              })}
               rows="4"
-              placeholder="Write a short Description about the movie"
+              placeholder="Write a short description about the movie"
               className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
             ></textarea>
-            {errorMessage.description && (
+            {errors.description && (
               <p className="text-red-500 text-sm mt-1">
-                {errorMessage.description}
+                {errors.description.message}
               </p>
             )}
           </div>
+
           {/* Submit Button */}
           <button
             type="submit"
