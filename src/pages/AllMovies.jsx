@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/SearchContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AllMovies() {
+  const { user } = useContext(AuthContext);
   const [movies, setMovies] = useState([]);
   const { searchTerm } = useContext(SearchContext);
   const navigate = useNavigate();
@@ -11,9 +13,12 @@ export default function AllMovies() {
   useEffect(() => {
     fetch("http://localhost:5000/all-movies")
       .then((res) => res.json())
-      .then((data) => setMovies(data))
+      .then((data) => {
+        const userMovies = data.filter((movie) => movie.user === user.email);
+        setMovies(userMovies);
+      })
       .catch((error) => console.log(error));
-  }, []);
+  }, [user.email]);
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,14 +54,6 @@ export default function AllMovies() {
           </div>
         ))}
       </div>
-      {/* <div className="flex justify-center mt-6">
-        <button
-          onClick={() => navigate("/")}
-          className="bg-green-500 text-white px-6 py-2 rounded"
-        >
-          See All Movies
-        </button>
-      </div> */}
     </div>
   );
 }
