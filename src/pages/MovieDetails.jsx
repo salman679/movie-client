@@ -18,8 +18,8 @@ export default function MovieDetails() {
         if (data.deletedCount > 0) {
           Swal.fire("Deleted!", "The movie has been deleted.", "success");
         }
-        navigate("/my-favorites/" + user.email);
-        // navigate("/all-movies");
+
+        navigate("/all-movies");
       })
       .catch((error) => console.error("Error deleting movie:", error));
   }
@@ -116,7 +116,7 @@ export default function MovieDetails() {
         {/* "See All Movies" Button */}
         <div className="mt-6 text-center">
           <button
-            onClick={() => navigate("/movies")}
+            onClick={() => navigate("/all-movies")}
             className="btn btn-secondary text-white"
           >
             See All Movies
