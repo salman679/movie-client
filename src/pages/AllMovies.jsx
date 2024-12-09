@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/SearchContext";
-import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 export default function AllMovies() {
-  const { user } = useContext(AuthContext);
   const [movies, setMovies] = useState([]);
   const { searchTerm } = useContext(SearchContext);
   const navigate = useNavigate();
@@ -14,11 +13,10 @@ export default function AllMovies() {
     fetch("https://movie-server-henna.vercel.app/all-movies")
       .then((res) => res.json())
       .then((data) => {
-        const userMovies = data.filter((movie) => movie.user === user.email);
-        setMovies(userMovies);
+        setMovies(data);
       })
-      .catch((error) => console.log(error));
-  }, [user.email]);
+      .catch((error) => Swal.fire("Error", error.message, "error"));
+  }, []);
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())

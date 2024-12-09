@@ -1,12 +1,19 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-
 import PropTypes from "prop-types";
 
 export default function PrivateRoutes({ children }) {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext); // Assuming `loading` indicates authentication status loading
+  const navigate = useNavigate();
 
-  if (!user) {
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/auth/login");
+    }
+  }, [loading, user, navigate]);
+
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-dots loading-lg"></span>
@@ -14,7 +21,7 @@ export default function PrivateRoutes({ children }) {
     );
   }
 
-  return children;
+  return user ? children : null;
 }
 
 PrivateRoutes.propTypes = {
