@@ -29,8 +29,8 @@ const MovieCarousel = () => {
   ];
 
   return (
-    <div className="">
-      <div className="container mx-auto px-6 ">
+    <div className="bg-gray-900">
+      <div className="container mx-auto ">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation

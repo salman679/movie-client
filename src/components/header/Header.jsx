@@ -1,32 +1,15 @@
 import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { MdLightMode } from "react-icons/md";
-import { MdDarkMode } from "react-icons/md";
+import { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import { SearchContext } from "../../context/SearchContext";
 
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    return storedTheme ? storedTheme === "dark" : prefersDark;
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
+  const { pathname } = useLocation();
 
   // Logout Function
   function handleLogout() {
@@ -49,7 +32,7 @@ export default function Header() {
   }
 
   return (
-    <div className="dark:bg-gray-900">
+    <div className="bg-gray-900 sticky top-0 z-50 backdrop-blur text-white">
       <div className="navbar  container mx-auto flex justify-between items-center py-4 px-6">
         <div className="navbar-start w-auto">
           <div className="dropdown">
@@ -71,10 +54,10 @@ export default function Header() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 dark:bg-gray-800 dark:text-white rounded-box z-50 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-gray-800 dark:text-white rounded-box z-50 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to="/" className="dark:bg-gray-700 mb-2">
+                <Link to="/" className="text-white hover:text-red-500 mb-2">
                   Home
                 </Link>
               </li>
@@ -100,33 +83,33 @@ export default function Header() {
               </li>
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost dark:text-white text-xl">
+          <Link to="/" className="dark:text-white font-bold text-xl">
             Movie Portal
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link to="/" className="dark:text-white">
+              <Link to="/" className=" hover:text-red-500">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/all-movies" className="dark:text-white">
+              <Link to="/all-movies" className="hover:text-red-500">
                 All Movies
               </Link>
             </li>
             {user && (
               <>
                 <li>
-                  <Link to="/add-movie" className="dark:text-white">
+                  <Link to="/add-movie" className="hover:text-red-500">
                     Add Movie
                   </Link>
                 </li>
                 <li>
                   <Link
                     to={`/my-favorites/${user.email}`}
-                    className="dark:text-white"
+                    className="text-white hover:text-red-500"
                   >
                     My Favorites
                   </Link>
@@ -134,7 +117,7 @@ export default function Header() {
               </>
             )}
             <li>
-              <Link to="/about-us" className="dark:text-white">
+              <Link to="/about-us" className="text-white hover:text-red-500">
                 About Us
               </Link>
             </li>
@@ -147,11 +130,13 @@ export default function Header() {
               placeholder="Search By Title"
               onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
-              className="input input-bordered dark:bg-gray-800 dark:text-white"
+              className={`input input-bordered dark:bg-gray-800 dark:text-white ${
+                pathname === "/all-movies" ? "block" : "hidden"
+              }`}
             />
           </div>
 
-          <button
+          {/* <button
             onClick={() => setDarkMode(!darkMode)}
             className="  text-black  py-2 px-1 rounded"
           >
@@ -160,7 +145,7 @@ export default function Header() {
             ) : (
               <MdDarkMode className="text-xl dark:text-gray-100 text-gray-700" />
             )}
-          </button>
+          </button> */}
           {user ? (
             <div className="dropdown dropdown-end group">
               {/* Avatar Button */}
@@ -180,14 +165,14 @@ export default function Header() {
               {/* Dropdown Menu */}
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 w-52 p-2 shadow opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
+                className="menu bg-gray-700 text-white menu-sm dropdown-content  rounded-box z-50 w-52 p-2 shadow opacity-0 group-hover:opacity-100  invisible group-hover:visible transition-all duration-200"
               >
-                <li>
+                <li className="hover:bg-gray-600 hover:rounded-lg">
                   <a className="justify-between">
                     {user.displayName || user.name}
                   </a>
                 </li>
-                <li>
+                <li className="hover:bg-gray-600 hover:rounded-lg">
                   <Link onClick={handleLogout}>Logout</Link>
                 </li>
               </ul>
@@ -195,11 +180,15 @@ export default function Header() {
           ) : (
             <>
               <Link to="/auth/login">
-                <button className="btn">Login</button>
+                <button className="btn bg-red-600 border-none hover:bg-red-700 text-white">
+                  Login
+                </button>
               </Link>
 
               <Link to="/auth/register">
-                <button className="btn">Register </button>
+                <button className="btn bg-red-600 border-none hover:bg-red-700 text-white">
+                  Register
+                </button>
               </Link>
             </>
           )}

@@ -13,7 +13,7 @@ export default function MovieCard({ movie }) {
       <p className="text-gray-500 text-sm">{movie.genre}</p>
       <p className="text-gray-500 text-sm">Duration: {movie.duration}</p>
       <p className="text-gray-500 text-sm">Release: {movie.releaseYear}</p>
-      <p className="text-gray-500 text-sm">Rating: {movie.rating}</p>
+      <p className="text-gray-500 text-sm">Rating: {Number(movie.rating)}</p>
       <Link
         to={`/movie/${movie._id}`}
         className="btn mt-2 text-lg"

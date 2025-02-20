@@ -19,10 +19,10 @@ const MovieSection = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto">
       {/* Featured Movies */}
-      <section className="mb-8">
-        <h2 className="text-2xl dark:text-white font-bold mb-4">
+      <section className="my-6">
+        <h2 className="text-2xl dark:text-white  font-bold mb-4">
           Featured Movie
         </h2>
         <Swiper
@@ -34,7 +34,7 @@ const MovieSection = () => {
           {movies.map((movie) => (
             <div key={movie._id} className="grid grid-cols-2 md:grid-cols-4">
               <SwiperSlide key={movie._id} className="">
-                <MovieCard movie={movie} />
+                <MovieCard movie={{ ...movie, rating: Number(movie.rating) }} />
               </SwiperSlide>
             </div>
           ))}

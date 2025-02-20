@@ -23,10 +23,7 @@ const upcomingMovies = [
 
 export function UpcomingMovies() {
   return (
-    <section className="my-8">
-      <h2 className="text-3xl font-bold dark:text-white text-center mb-6">
-        Upcoming Movies
-      </h2>
+    <section className="">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {upcomingMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
