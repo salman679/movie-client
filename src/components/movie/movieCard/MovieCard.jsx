@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function MovieCard({ movie }) {
   return (
-    <div className="p-4 bg-white shadow-md rounded-md">
+    <div className="p-4 bg-slate-800 shadow-md rounded-md">
       <img
         src={movie.poster}
         alt={movie.title}

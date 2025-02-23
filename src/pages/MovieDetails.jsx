@@ -61,7 +61,7 @@ export default function MovieDetails() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900  rounded-lg shadow-lg p-6">
+      <div className="max-w-4xl mx-auto bg-gray-900  rounded-lg shadow-lg p-6">
         {/* Movie Poster and Info */}
         <div className="flex items-center space-x-6">
           <img

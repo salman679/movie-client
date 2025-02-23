@@ -33,7 +33,7 @@ export default function Favorite() {
       );
   });
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-800 py-10">
+    <div className="min-h-screen bg-gray-800 py-10">
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">
           Your Favorite Movies
@@ -43,7 +43,7 @@ export default function Favorite() {
             favoriteMovies.map((movie) => (
               <div
                 key={movie._id}
-                className="bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-hidden"
+                className=" bg-gray-900 shadow-md rounded-lg overflow-hidden"
               >
                 <img
                   src={movie.poster}

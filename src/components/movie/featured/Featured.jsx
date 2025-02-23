@@ -22,9 +22,7 @@ const MovieSection = () => {
     <div className="container mx-auto">
       {/* Featured Movies */}
       <section className="my-6">
-        <h2 className="text-2xl dark:text-white  font-bold mb-4">
-          Featured Movie
-        </h2>
+        <h2 className="text-2xl text-white font-bold mb-4">Featured Movie</h2>
         <Swiper
           slidesPerView={4}
           spaceBetween={20}
@@ -43,9 +41,7 @@ const MovieSection = () => {
 
       {/* Upcoming Movies */}
       <section className="mb-8">
-        <h2 className="text-2xl dark:text-white font-bold mb-4">
-          Upcoming Movies
-        </h2>
+        <h2 className="text-2xl text-white font-bold mb-4">Upcoming Movies</h2>
         <Swiper
           slidesPerView={4}
           spaceBetween={20}

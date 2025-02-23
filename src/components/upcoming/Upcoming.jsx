@@ -27,7 +27,7 @@ export function UpcomingMovies() {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {upcomingMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
-            <div className="bg-white shadow-md rounded p-4">
+            <div className="bg-slate-800 shadow-md rounded p-4">
               <img
                 src={movie.poster}
                 alt={movie.title}

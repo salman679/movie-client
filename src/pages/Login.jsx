@@ -61,16 +61,16 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-      <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center dark:text-white text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className=" bg-slate-800 shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-white mb-6">
           Login to Your Account
         </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Email Address
             </label>
@@ -79,7 +79,7 @@ export default function Login() {
               id="email"
               name="email"
               placeholder="Enter your email"
-              className="mt-1 w-full px-4 py-2 border rounded-md dark:text-white dark:bg-gray-900 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-900 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
             {errorMessage && (
@@ -89,7 +89,7 @@ export default function Login() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Password
             </label>
@@ -98,7 +98,7 @@ export default function Login() {
               id="password"
               name="password"
               placeholder="Enter your password"
-              className="mt-1 w-full px-4 py-2 border rounded-md dark:text-white dark:bg-gray-900 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-900 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
             {errorMessage && (

@@ -6,7 +6,7 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <div className="bg-gray-900 dark:text-white">
+      <div className="bg-gray-900 text-white">
         <div className="container min-h-screen mx-auto px-6 ">
           <Outlet />
         </div>

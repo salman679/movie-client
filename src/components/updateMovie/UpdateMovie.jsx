@@ -43,7 +43,7 @@ export default function UpdateMovie() {
   };
 
   return (
-    <div className="container mx-auto p-4 dark:bg-gray-800 dark:text-white">
+    <div className="container mx-auto p-4 bg-gray-800 text-white">
       <h1 className="text-3xl font-bold mb-6">Update Movie</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -54,7 +54,7 @@ export default function UpdateMovie() {
             value={formData.title}
             onChange={handleInputChange}
             required
-            className="input input-bordered w-full dark:dark:bg-gray-900 dark:text-white"
+            className="input input-bordered w-full bg-gray-900 text-white"
           />
         </div>
         <div>
@@ -65,7 +65,7 @@ export default function UpdateMovie() {
             value={formData.genre}
             onChange={handleInputChange}
             required
-            className="input input-bordered w-full dark:bg-gray-900 dark:text-white"
+            className="input input-bordered w-full bg-gray-900 text-white"
           />
         </div>
         <div>
@@ -77,7 +77,7 @@ export default function UpdateMovie() {
             value={formData.duration}
             onChange={handleInputChange}
             required
-            className="input input-bordered w-full dark:bg-gray-900 dark:text-white"
+            className="input input-bordered w-full bg-gray-900 text-white"
           />
         </div>
         <div>
@@ -88,7 +88,7 @@ export default function UpdateMovie() {
             value={formData.releaseYear}
             onChange={handleInputChange}
             required
-            className="input input-bordered w-full dark:bg-gray-900 dark:text-white"
+            className="input input-bordered w-full bg-gray-900 text-white"
           />
         </div>
         <div>
@@ -100,7 +100,7 @@ export default function UpdateMovie() {
             value={formData.rating}
             onChange={handleInputChange}
             required
-            className="input input-bordered w-full dark:bg-gray-900 dark:text-white"
+            className="input input-bordered w-full bg-gray-900 text-white"
           />
         </div>
         <div>
@@ -111,7 +111,7 @@ export default function UpdateMovie() {
             value={formData.poster}
             onChange={handleInputChange}
             required
-            className="input input-bordered w-full dark:bg-gray-900 dark:text-white"
+            className="input input-bordered w-full bg-gray-900 text-white"
           />
         </div>
         <button

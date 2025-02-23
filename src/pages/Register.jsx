@@ -71,16 +71,16 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-      <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-gray-800">
+      <div className="bg-white bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-gray-800 text-white mb-6">
           Create an Account
         </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white text-gray-700"
             >
               Full Name
             </label>
@@ -89,14 +89,14 @@ export default function Register() {
               id="name"
               name="name"
               placeholder="Enter your full name"
-              className="mt-1 w-full px-4 py-2 border rounded-md dark:text-white dark:bg-gray-800 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md text-white bg-gray-800 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white text-gray-700"
             >
               Email Address
             </label>
@@ -105,14 +105,14 @@ export default function Register() {
               id="email"
               name="email"
               placeholder="Enter your email"
-              className="mt-1 w-full px-4 py-2 border rounded-md dark:text-white dark:bg-gray-800 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md text-white bg-gray-800 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
           <div>
             <label
               htmlFor="photoUrl"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white text-gray-700"
             >
               Photo Url
             </label>
@@ -121,14 +121,14 @@ export default function Register() {
               id="photoUrl"
               name="photoUrl"
               placeholder="Enter your Photo Url"
-              className="mt-1 w-full px-4 py-2 border dark:text-white dark:bg-gray-800 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border text-white bg-gray-800 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
           <div className="relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white text-gray-700"
             >
               Password
             </label>
@@ -137,7 +137,7 @@ export default function Register() {
               id="password"
               name="password"
               placeholder="Create a password"
-              className="mt-1 relative w-full px-4 py-2 border dark:text-white dark:bg-gray-800 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 relative w-full px-4 py-2 border text-white bg-gray-800 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
 

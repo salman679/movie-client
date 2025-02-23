@@ -64,9 +64,9 @@ export default function AddMovie() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800 px-4">
-      <div className="bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
-        <h2 className="text-2xl font-bold text-center dark:text-white text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-800 px-4">
+      <div className=" bg-gray-900 text-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Add a New Movie
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -74,7 +74,7 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="poster"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white "
             >
               Movie Poster (Link)
             </label>
@@ -89,7 +89,7 @@ export default function AddMovie() {
                 },
               })}
               placeholder="Enter poster link"
-              className="mt-1 w-full px-4 py-2 border dark:bg-gray-800 dark:text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             {errors.poster && (
               <p className="text-red-500 text-sm mt-1">
@@ -102,7 +102,7 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium  dark:text-white text-gray-700"
+              className="block text-sm font-medium  text-white "
             >
               Movie Title
             </label>
@@ -117,7 +117,7 @@ export default function AddMovie() {
                 },
               })}
               placeholder="Enter movie title"
-              className="mt-1 w-full px-4 py-2 border dark:bg-gray-800 dark:text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             {errors.title && (
               <p className="text-red-500 text-sm mt-1">
@@ -130,14 +130,14 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="genre"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white "
             >
               Genre
             </label>
             <select
               id="genre"
               {...register("genre", { required: "Genre is required" })}
-              className="mt-1 w-full px-4 py-2 border dark:bg-gray-800 dark:text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select a genre</option>
               <option value="comedy">Comedy</option>
@@ -157,7 +157,7 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="duration"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white "
             >
               Duration (in minutes)
             </label>
@@ -172,7 +172,7 @@ export default function AddMovie() {
                 },
               })}
               placeholder="Enter duration in minutes"
-              className="mt-1 w-full px-4 py-2 border dark:bg-gray-800 dark:text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             {errors.duration && (
               <p className="text-red-500 text-sm mt-1">
@@ -185,7 +185,7 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="releaseYear"
-              className="block text-sm font-medium dark:text-white text-gray-700"
+              className="block text-sm font-medium text-white "
             >
               Release Year
             </label>
@@ -194,7 +194,7 @@ export default function AddMovie() {
               {...register("releaseYear", {
                 required: "Release year is required",
               })}
-              className="mt-1 w-full px-4 py-2 dark:bg-gray-800 dark:text-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 bg-gray-800 text-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select release year</option>
               <option value="2024">2024</option>
@@ -213,7 +213,7 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="rating"
-              className="block text-sm font-medium dark:text-white text-gray-700 mb-2"
+              className="block text-sm font-medium text-white  mb-2"
             >
               Rating
             </label>
@@ -228,7 +228,7 @@ export default function AddMovie() {
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium dark:text-white  text-gray-700"
+              className="block text-sm font-medium text-white  "
             >
               Description
             </label>
@@ -243,7 +243,7 @@ export default function AddMovie() {
               })}
               rows="4"
               placeholder="Write a short description about the movie"
-              className="mt-1 w-full px-4 py-2 dark:bg-gray-800 dark:text-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 bg-gray-800 text-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
             {errors.description && (
               <p className="text-red-500 text-sm mt-1">
