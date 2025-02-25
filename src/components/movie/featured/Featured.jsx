@@ -9,33 +9,51 @@ import { TopDirectors } from "../../directors/TopDirectors";
 
 const MovieSection = () => {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch movies from the API
   useEffect(() => {
-    fetch("https://movie-server-henna.vercel.app/movies")
-      .then((res) => res.json())
-      .then((data) => setMovies(data))
-      .catch((error) => console.error("Error fetching movies:", error));
+    const fetchMovies = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          "https://movie-server-henna.vercel.app/movies"
+        );
+        const data = await response.json();
+        setMovies(data);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
   }, []);
 
   return (
     <div className="container mx-auto">
       {/* Featured Movies */}
       <section className="my-6">
-        <h2 className="text-2xl text-white font-bold mb-4">Featured Movie</h2>
+        <h2 className="text-2xl text-white font-bold mb-4">Featured Movies</h2>
+
         <Swiper
           slidesPerView={4}
           spaceBetween={20}
           navigation={true}
           modules={[Navigation]}
         >
-          {movies.map((movie) => (
-            <div key={movie._id} className="grid grid-cols-2 md:grid-cols-4">
-              <SwiperSlide key={movie._id} className="">
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <span className="loading loading-dots loading-lg"></span>
+            </div>
+          ) : (
+            movies.map((movie) => (
+              <SwiperSlide key={movie._id}>
                 <MovieCard movie={{ ...movie, rating: Number(movie.rating) }} />
               </SwiperSlide>
-            </div>
-          ))}
+            ))
+          )}
         </Swiper>
       </section>
 
@@ -52,8 +70,10 @@ const MovieSection = () => {
         </Swiper>
       </section>
 
-      {/* Top Directors  */}
-      <TopDirectors />
+      {/* Top Directors */}
+      <section>
+        <TopDirectors />
+      </section>
     </div>
   );
 };
