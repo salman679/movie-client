@@ -2,13 +2,11 @@ import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 import { useContext } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-
 import { SearchContext } from "../../context/SearchContext";
-
+import { FiMenu } from "react-icons/fi";
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
-
   const { pathname } = useLocation();
 
   console.log(pathname);
@@ -34,64 +32,9 @@ export default function Header() {
   }
 
   return (
-    <div className="bg-gray-900 sticky top-0 z-50 backdrop-blur text-white">
-      <div className="navbar  container mx-auto flex justify-between items-center py-4 px-6">
+    <div className="bg-gray-950 sticky top-0 z-50 backdrop-blur text-white">
+      <div className="navbar container mx-auto flex justify-between items-center py-4 px-6">
         <div className="navbar-start w-auto">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-white "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-gray-800 text-white rounded-box z-50 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <NavLink
-                  to="/"
-                  className={(isActive) =>
-                    isActive
-                      ? "text-red-500 hover:text-red-500 mb-2"
-                      : "text-white mb-2"
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/movies" className="bg-gray-700 mb-2">
-                  All Movies
-                </NavLink>
-              </li>
-              <li>
-                <Link to="/add-movie" className="bg-gray-700 mb-2">
-                  Add Movie
-                </Link>
-              </li>
-              <li>
-                <Link to="/favorites" className="bg-gray-700 mb-2">
-                  My Favorites
-                </Link>
-              </li>
-              <li>
-                <Link to="/extra" className="bg-gray-700 mb-2">
-                  Extra Page
-                </Link>
-              </li>
-            </ul>
-          </div>
           <Link to="/" className="text-white font-bold text-xl">
             Movie Portal
           </Link>
@@ -167,25 +110,13 @@ export default function Header() {
               placeholder="Search By Title"
               onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
-              className={`input input-bordered bg-gray-800 text-white ${
+              className={`input input-bordered hidden md:block bg-gray-800 text-white ${
                 pathname === "/all-movies" ? "block" : "hidden"
               }`}
             />
           </div>
-
-          {/* <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="  text-black  py-2 px-1 rounded"
-          >
-            {darkMode ? (
-              <MdLightMode className="text-xl text-gray-100 text-gray-700" />
-            ) : (
-              <MdDarkMode className="text-xl text-gray-100 text-gray-700" />
-            )}
-          </button> */}
           {user ? (
             <div className="dropdown dropdown-end group">
-              {/* Avatar Button */}
               <div role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img
@@ -199,7 +130,6 @@ export default function Header() {
                 </div>
               </div>
 
-              {/* Dropdown Menu */}
               <ul
                 tabIndex={0}
                 className="menu bg-gray-700 text-white menu-sm dropdown-content  rounded-box z-50 w-52 p-2 shadow opacity-0 group-hover:opacity-100  invisible group-hover:visible transition-all duration-200"
@@ -221,7 +151,6 @@ export default function Header() {
                   Login
                 </button>
               </Link>
-
               <Link to="/auth/register">
                 <button className="btn bg-red-600 border-none hover:bg-red-700 text-white">
                   Register
@@ -229,6 +158,80 @@ export default function Header() {
               </Link>
             </>
           )}
+          <div className="dropdown">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost right-0 pr-0 mr-0 lg:hidden"
+            >
+              <FiMenu className="text-2xl" />
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-gray-800 text-white rounded-box z-50 mt-3 w-52 p-2 -right-2  shadow"
+            >
+              <li>
+                <NavLink
+                  to="/home"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-red-500 font-bold"
+                      : "text-white hover:text-red-500"
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/all-movies"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-red-500 font-bold"
+                      : "text-white hover:text-red-500"
+                  }
+                >
+                  All Movies
+                </NavLink>
+              </li>
+              {user && (
+                <>
+                  <li>
+                    <NavLink
+                      to="/add-movie"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-red-500 font-bold"
+                          : "text-white hover:text-red-500"
+                      }
+                    >
+                      Add Movie
+                    </NavLink>
+                  </li>
+                  <li>
+                    <Link
+                      to={`/my-favorites/${user.email}`}
+                      className="text-white hover:text-red-500"
+                    >
+                      My Favorites
+                    </Link>
+                  </li>
+                </>
+              )}
+              <li>
+                <NavLink
+                  to="/about-us"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-red-500 font-bold"
+                      : "text-white hover:text-red-500"
+                  }
+                >
+                  About Us
+                </NavLink>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

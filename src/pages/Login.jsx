@@ -61,9 +61,9 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className=" bg-slate-800 shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-white mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-800 shadow-lg rounded-lg p-8 md:p-10 pt-13 sm:pt-16 w-full max-w-md">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-white mb-6">
           Login to Your Account
         </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -79,7 +79,7 @@ export default function Login() {
               id="email"
               name="email"
               placeholder="Enter your email"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-900 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-700 text-slate-500 focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
             {errorMessage && (
@@ -98,45 +98,45 @@ export default function Login() {
               id="password"
               name="password"
               placeholder="Enter your password"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-900 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-700 text-slate-500 focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
             {errorMessage && (
               <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
             )}
-            <Link
-              // to="/auth/forget-password"
-              className="text-sm text-blue-500 hover:underline"
-            >
+            <Link className="text-sm text-red-500 hover:underline block mt-2">
               Forget Password?
             </Link>
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-red-600 text-white font-medium py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             Login
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Or login with{" "}
+          <p className="text-sm text-gray-400">
+            Or login with
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="text-blue-500 hover:underline"
+              className="text-red-500 hover:underline ml-1"
             >
               Google
             </button>
           </p>
         </div>
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Don&apos;t have an account?{" "}
-            <a href="/auth/register" className="text-blue-500 hover:underline">
+          <p className="text-sm text-gray-400">
+            Don&apos;t have an account?
+            <Link
+              to="/auth/register"
+              className="text-red-500 hover:underline ml-1"
+            >
               Register here
-            </a>
+            </Link>
           </p>
         </div>
       </div>

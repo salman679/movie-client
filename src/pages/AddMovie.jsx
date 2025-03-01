@@ -33,7 +33,7 @@ export default function AddMovie() {
     }
 
     // Send data to server
-    fetch("https://movie-server-henna.vercel.app/add-movie", {
+    fetch(`${import.meta.env.VITE_api}/add-movie`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

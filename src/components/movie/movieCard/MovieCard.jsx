@@ -16,7 +16,7 @@ export default function MovieCard({ movie }) {
       <p className="text-gray-500 text-sm">Rating: {Number(movie.rating)}</p>
       <Link
         to={`/movie/${movie._id}`}
-        className="btn mt-2 text-lg"
+        className="btn bg-red-500 hover:bg-red-600 text-white border-none font-normal mt-2 text-lg"
         type="button"
       >
         See Details

@@ -16,9 +16,7 @@ const MovieSection = () => {
     const fetchMovies = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          "https://movie-server-henna.vercel.app/movies"
-        );
+        const response = await fetch(`${import.meta.env.VITE_api}/movies`);
         const data = await response.json();
         setMovies(data);
       } catch (error) {
@@ -32,16 +30,21 @@ const MovieSection = () => {
   }, []);
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-6">
       {/* Featured Movies */}
       <section className="my-6">
         <h2 className="text-2xl text-white font-bold mb-4">Featured Movies</h2>
 
         <Swiper
-          slidesPerView={4}
+          slidesPerView={1}
           spaceBetween={20}
           navigation={true}
           modules={[Navigation]}
+          breakpoints={{
+            640: { slidesPerView: 1, spaceBetween: 10 },
+            768: { slidesPerView: 2, spaceBetween: 15 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+          }}
         >
           {loading ? (
             <div className="flex justify-center items-center h-64">
@@ -65,6 +68,11 @@ const MovieSection = () => {
           spaceBetween={20}
           navigation={true}
           modules={[Navigation]}
+          breakpoints={{
+            640: { slidesPerView: 1, spaceBetween: 10 },
+            768: { slidesPerView: 2, spaceBetween: 15 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+          }}
         >
           <UpcomingMovies />
         </Swiper>

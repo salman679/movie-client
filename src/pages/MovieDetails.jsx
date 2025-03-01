@@ -10,7 +10,7 @@ export default function MovieDetails() {
   const navigate = useNavigate();
 
   function handleDeleteMovie(id) {
-    fetch(`https://movie-server-henna.vercel.app/movie/${id}`, {
+    fetch(`${import.meta.env.VITE_api}/movie/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -25,7 +25,7 @@ export default function MovieDetails() {
   }
 
   function handleFavorite(id) {
-    fetch("https://movie-server-henna.vercel.app/add-favorite", {
+    fetch(`${import.meta.env.VITE_api}/add-favorite`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export default function MovieDetails() {
   }
 
   useEffect(() => {
-    fetch(`https://movie-server-henna.vercel.app/movie/${id}`)
+    fetch(`${import.meta.env.VITE_api}/movie/${id}`)
       .then((res) => res.json())
       .then((data) => setMovie(data))
       .catch((error) => console.error("Error fetching movie details:", error));
