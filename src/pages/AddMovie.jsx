@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
 
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -64,9 +65,9 @@ export default function AddMovie() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-800 px-4">
-      <div className=" bg-gray-900 text-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      <div className=" bg-gray-800 my-9 text-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+        <h2 className="text-2xl font-bold text-center text-white mb-6">
           Add a New Movie
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -220,6 +221,12 @@ export default function AddMovie() {
             <Rating
               name="rating"
               value={rating}
+              emptyIcon={
+                <StarIcon
+                  style={{ stroke: "white", strokeWidth: 1 }}
+                  fontSize="inherit"
+                />
+              }
               onChange={(event, newValue) => setRating(newValue)}
             />
           </div>
@@ -255,7 +262,7 @@ export default function AddMovie() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white font-medium py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full bg-red-600 text-white font-medium py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             Add Movie
           </button>

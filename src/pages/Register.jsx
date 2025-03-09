@@ -87,7 +87,7 @@ export default function Register() {
               id="name"
               name="name"
               placeholder="Enter your full name"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-200  text-black focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-800  text-slate-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
           </div>
@@ -103,7 +103,7 @@ export default function Register() {
               id="email"
               name="email"
               placeholder="Enter your email"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-200  text-black focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-800  text-slate-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
           </div>
@@ -119,7 +119,7 @@ export default function Register() {
               id="photoUrl"
               name="photoUrl"
               placeholder="Enter your Photo URL"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-200  text-black focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-800  text-slate-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
           </div>
@@ -135,7 +135,7 @@ export default function Register() {
               id="password"
               name="password"
               placeholder="Create a password"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-gray-200  text-black focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-800 text-slate-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
             <button

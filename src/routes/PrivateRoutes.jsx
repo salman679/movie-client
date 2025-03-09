@@ -1,29 +1,30 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { Navigate, useLocation } from "react-router-dom";
+
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export default function PrivateRoutes({ children }) {
-  const { user, loading } = useContext(AuthContext); // Assuming `loading` indicates authentication status loading
-  const navigate = useNavigate();
+export default function PrivateRoute({ children }) {
+  const { user, loading } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate("/auth/login");
-    }
-  }, [loading, user, navigate]);
+  const location = useLocation();
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         <span className="loading loading-dots loading-lg"></span>
       </div>
     );
   }
 
-  return user ? children : null;
+  if (user) {
+    return children;
+  }
+
+  return <Navigate to="/auth/login" state={{ from: location }} replace />;
 }
 
-PrivateRoutes.propTypes = {
-  children: PropTypes.node,
+// Correct PropTypes definition
+PrivateRoute.propTypes = {
+  children: PropTypes.node.isRequired,
 };

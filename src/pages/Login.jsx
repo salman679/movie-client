@@ -1,13 +1,16 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Login() {
   const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
+  const location = useLocation();
 
   const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +36,7 @@ export default function Login() {
           timer: 1500,
         });
 
-        navigate("/home");
+        navigate(from, { replace: true });
         e.target.reset();
       })
       .catch((error) => {
@@ -79,7 +82,7 @@ export default function Login() {
               id="email"
               name="email"
               placeholder="Enter your email"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-700 text-slate-500 focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-800 text-slate-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
             {errorMessage && (
@@ -98,7 +101,7 @@ export default function Login() {
               id="password"
               name="password"
               placeholder="Enter your password"
-              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-700 text-slate-500 focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="mt-1 w-full px-4 py-2 border rounded-md bg-slate-800 text-slate-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
               required
             />
             {errorMessage && (

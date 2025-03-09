@@ -6,6 +6,8 @@ export default function Favorite() {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const { user } = useContext(AuthContext);
 
+  console.log(favoriteMovies);
+
   function handleDeleteFavorite(id) {
     fetch(`${import.meta.env.VITE_api}/favorites/${user.email}/${id}`, {
       method: "DELETE",
@@ -28,15 +30,15 @@ export default function Favorite() {
       .catch((error) =>
         console.error("Error fetching favorite movies:", error)
       );
-  });
+  }, [user.email]);
   return (
-    <div className="min-h-screen bg-gray-800 py-10">
+    <div className="min-h-screen bg-gray-900 py-10">
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">
           Your Favorite Movies
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {favoriteMovies ? (
+          {favoriteMovies.length > 0 ? (
             favoriteMovies.map((movie) => (
               <div
                 key={movie._id}
@@ -71,7 +73,9 @@ export default function Favorite() {
               </div>
             ))
           ) : (
-            <p className="text-center text-2xl">No favorite movies found.</p>
+            <p className="text-center text-2xl text-gray-300 flex items-center justify-center h-full">
+              No favorite movies found.
+            </p>
           )}
         </div>
       </div>

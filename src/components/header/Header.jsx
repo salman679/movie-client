@@ -73,19 +73,23 @@ export default function Header() {
                     className={({ isActive }) =>
                       isActive
                         ? "text-red-500 font-bold"
-                        : "text-white hover:text-red-500"
+                        : "text-white hover:text-red-500 hover:font-bold"
                     }
                   >
                     Add Movie
                   </NavLink>
                 </li>
                 <li>
-                  <Link
+                  <NavLink
                     to={`/my-favorites/${user.email}`}
-                    className="text-white hover:text-red-500"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-red-500 font-bold"
+                        : "text-white hover:text-red-500"
+                    }
                   >
                     My Favorites
-                  </Link>
+                  </NavLink>
                 </li>
               </>
             )}
