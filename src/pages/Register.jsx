@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { IoEyeOffSharp, IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Register() {
   const { updateUser, createUser, signInWithGoogle } = useContext(AuthContext);
@@ -10,6 +11,11 @@ export default function Register() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
+  console.log(location);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -51,7 +57,7 @@ export default function Register() {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/home");
+        navigate(from, { replace: true });
         event.target.reset();
       });
     });

@@ -12,6 +12,8 @@ export default function Login() {
 
   const from = location.state?.from?.pathname || "/";
 
+  console.log(from);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -135,6 +137,7 @@ export default function Login() {
           <p className="text-sm text-gray-400">
             Don&apos;t have an account?
             <Link
+              state={{ from }}
               to="/auth/register"
               className="text-red-500 hover:underline ml-1"
             >

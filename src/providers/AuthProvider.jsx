@@ -14,31 +14,27 @@ import { Auth } from "../firebase/firebase.config";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
 
   function createUser(user) {
-    setUser(user);
-    setLoading(false);
+    setLoading(true);
     return createUserWithEmailAndPassword(Auth, user.email, user.password);
   }
 
   function updateUser(user) {
-    setUser(user);
-    setLoading(false);
+    setLoading(true);
     return updateProfile(Auth.currentUser, user);
   }
 
   function signIn(user) {
-    setUser(user);
-    setLoading(false);
+    setLoading(true);
     return signInWithEmailAndPassword(Auth, user.email, user.password);
   }
 
   function Logout() {
-    setUser(null);
-    setLoading(false);
+    setLoading(true);
     return signOut(Auth);
   }
 
@@ -48,6 +44,7 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(Auth, (user) => {
+      setLoading(true);
       if (user) {
         setUser(user);
         setLoading(false);

@@ -9,8 +9,6 @@ export default function Header() {
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const { pathname } = useLocation();
 
-  console.log(pathname);
-
   // Logout Function
   function handleLogout() {
     Logout()

@@ -35,18 +35,18 @@ const MovieCarousel = () => {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           loop={true}
           className="rounded-lg overflow-hidden"
         >
           {banners.map((banner, index) => (
             <SwiperSlide key={index}>
               <div
-                className="relative h-[400px] md:h-[500px] lg:h-[600px] bg-cover bg-center flex items-center justify-center px-2"
+                className="relative h-[400px] md:h-[500px] lg:h-[600px] bg-cover bg-center flex items-center justify-center "
                 style={{ backgroundImage: `url(${banner.image})` }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center p-10 md:p-0 lg:p-8">
-                  <div className="max-w-2xl text-white">
+                  <div className="text-white">
                     <h2 className="text-3xl md:text-5xl lg:text-7xl font-bold">
                       {banner.title}
                     </h2>

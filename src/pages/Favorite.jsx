@@ -73,9 +73,11 @@ export default function Favorite() {
               </div>
             ))
           ) : (
-            <p className="text-center text-2xl text-gray-300 flex items-center justify-center h-full">
-              No favorite movies found.
-            </p>
+            <div className="col-span-full flex items-center justify-center h-96">
+              <p className="text-2xl text-gray-300">
+                No favorite movies found.
+              </p>
+            </div>
           )}
         </div>
       </div>
