@@ -3,7 +3,7 @@
 Welcome to **Movie Portal** – a user-friendly platform for exploring, adding, and managing your favorite movies. This project is designed to deliver a seamless and engaging movie experience with an intuitive UI and dynamic functionalities.
 
 ## 🌟 Live Demo
-🔗 [Visit the Movie Portal](#) *(Replace with your live site URL)*
+🔗 [Visit the Movie Portal](movie-portal-ad9bf.web.app) 
 
 ## 🚀 Features
 - 🎥 **Explore Movies** – Browse all movies in an elegant grid layout.
