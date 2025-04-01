@@ -64,7 +64,7 @@ Ensure you have **Node.js** and **MongoDB** installed.
 | DELETE | /movies/:id    | Delete a movie         |
 
 ## 📌 Deployment
-- **Client:** Deployed on **Netlify/Firebase** *(Specify where you hosted it)*.
+- **Client:** Deployed on **Firebase** .
 - **Server:** Hosted on **Vercel** for seamless API calls.
 
 ## 🔥 Challenges & Enhancements
