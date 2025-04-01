@@ -1,13 +1,59 @@
-import { AuthContext } from "../../context/AuthContext";
-import Swal from "sweetalert2";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  Menu,
+  X,
+  Search,
+  User,
+  LogOut,
+  Film,
+  Heart,
+  Plus,
+  Info,
+  Home,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { AuthContext } from "../../context/AuthContext";
 import { SearchContext } from "../../context/SearchContext";
-import { FiMenu } from "react-icons/fi";
+
 export default function Header() {
   const { user, Logout } = useContext(AuthContext);
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const { pathname } = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setShowSearch(false);
+  }, [pathname]);
 
   // Logout Function
   function handleLogout() {
@@ -30,212 +76,271 @@ export default function Header() {
   }
 
   return (
-    <div className="bg-gray-950 sticky top-0 z-50 backdrop-blur text-white">
-      <div className="navbar container mx-auto flex justify-between items-center py-4 px-6">
-        <div className="navbar-start w-auto">
-          <Link to="/" className="text-white font-bold text-xl">
-            Movie Portal
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled || mobileMenuOpen || showSearch
+          ? "bg-gray-900/95 backdrop-blur-md shadow-lg"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <h1 className="text-2xl font-bold text-white">
+              <span className="text-[#dc2626]">Movie</span> Portal
+            </h1>
           </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            <NavLink
+              to="/home"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#dc2626] font-medium"
+                  : "text-white hover:text-[#dc2626] transition-colors"
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/all-movies"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#dc2626] font-medium"
+                  : "text-white hover:text-[#dc2626] transition-colors"
+              }
+            >
+              All Movies
+            </NavLink>
+            {user && (
+              <>
+                <NavLink
+                  to="/add-movie"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#dc2626] font-medium"
+                      : "text-white hover:text-[#dc2626] transition-colors"
+                  }
+                >
+                  Add Movie
+                </NavLink>
+                <NavLink
+                  to={`/my-favorites/${user.email}`}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-[#dc2626] font-medium"
+                      : "text-white hover:text-[#dc2626] transition-colors"
+                  }
+                >
+                  My Favorites
+                </NavLink>
+              </>
+            )}
+            <NavLink
+              to="/about-us"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#dc2626] font-medium"
+                  : "text-white hover:text-[#dc2626] transition-colors"
+              }
+            >
+              About Us
+            </NavLink>
+          </nav>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Search Button */}
+            {pathname === "/all-movies" && (
+              <button
+                onClick={() => setShowSearch(!showSearch)}
+                className="text-white hover:text-[#dc2626] transition-colors"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+            )}
+
+            {/* User Menu */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center">
+                    <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-[#dc2626]">
+                      <img
+                        src={
+                          user.photoURL ||
+                          user.photoUrl ||
+                          "/placeholder.svg?height=36&width=36"
+                        }
+                        alt="Avatar"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-gray-800 border-gray-700 text-white">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-gray-700" />
+                  <DropdownMenuItem className="hover:bg-gray-700 cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>{user.displayName || user.name}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="hover:bg-gray-700 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link to="/auth/login">
+                  <Button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/auth/register" className="hidden md:block">
+                  <Button
+                    variant="outline"
+                    className="hover:text-white text-gray-500 border-white hover:bg-white/10"
+                  >
+                    Register
+                  </Button>
+                </Link>
+              </div>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-white hover:text-[#dc2626] transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
+
+        {/* Search Bar - Expandable */}
+        <AnimatePresence>
+          {showSearch && pathname === "/all-movies" && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden py-4"
+            >
+              <div className="flex items-center">
+                <Input
+                  type="text"
+                  placeholder="Search by title..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="bg-gray-800 border-gray-700 text-white"
+                />
+                <Button
+                  variant="ghost"
+                  className="ml-2 text-white hover:text-[#dc2626]"
+                  onClick={() => setShowSearch(false)}
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-gray-900/95 backdrop-blur-md overflow-hidden"
+          >
+            <nav className="container mx-auto px-6 py-4 flex flex-col space-y-4">
               <NavLink
                 to="/home"
                 className={({ isActive }) =>
-                  isActive
-                    ? "text-red-500 font-bold"
-                    : "text-white hover:text-red-500"
+                  `flex items-center py-2 ${
+                    isActive ? "text-[#dc2626]" : "text-white"
+                  }`
                 }
               >
+                <Home className="w-5 h-5 mr-3" />
                 Home
               </NavLink>
-            </li>
-            <li>
               <NavLink
                 to="/all-movies"
                 className={({ isActive }) =>
-                  isActive
-                    ? "text-red-500 font-bold"
-                    : "text-white hover:text-red-500"
+                  `flex items-center py-2 ${
+                    isActive ? "text-[#dc2626]" : "text-white"
+                  }`
                 }
               >
+                <Film className="w-5 h-5 mr-3" />
                 All Movies
               </NavLink>
-            </li>
-            {user && (
-              <>
-                <li>
+              {user && (
+                <>
                   <NavLink
                     to="/add-movie"
                     className={({ isActive }) =>
-                      isActive
-                        ? "text-red-500 font-bold"
-                        : "text-white hover:text-red-500 hover:font-bold"
+                      `flex items-center py-2 ${
+                        isActive ? "text-[#dc2626]" : "text-white"
+                      }`
                     }
                   >
+                    <Plus className="w-5 h-5 mr-3" />
                     Add Movie
                   </NavLink>
-                </li>
-                <li>
                   <NavLink
                     to={`/my-favorites/${user.email}`}
                     className={({ isActive }) =>
-                      isActive
-                        ? "text-red-500 font-bold"
-                        : "text-white hover:text-red-500"
+                      `flex items-center py-2 ${
+                        isActive ? "text-[#dc2626]" : "text-white"
+                      }`
                     }
                   >
+                    <Heart className="w-5 h-5 mr-3" />
                     My Favorites
                   </NavLink>
-                </li>
-              </>
-            )}
-            <li>
+                </>
+              )}
               <NavLink
                 to="/about-us"
                 className={({ isActive }) =>
-                  isActive
-                    ? "text-red-500 font-bold"
-                    : "text-white hover:text-red-500"
+                  `flex items-center py-2 ${
+                    isActive ? "text-[#dc2626]" : "text-white"
+                  }`
                 }
               >
+                <Info className="w-5 h-5 mr-3" />
                 About Us
               </NavLink>
-            </li>
-          </ul>
-        </div>
-        <div className="flex-none gap-2">
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search By Title"
-              onChange={(e) => setSearchTerm(e.target.value)}
-              value={searchTerm}
-              className={`input input-bordered hidden md:block bg-gray-800 text-white ${
-                pathname === "/all-movies" ? "block" : "hidden"
-              }`}
-            />
-          </div>
-          {user ? (
-            <div className="dropdown dropdown-end group">
-              <div role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Avatar"
-                    src={`${
-                      user.photoURL ||
-                      user.photoUrl ||
-                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                    }`}
-                  />
-                </div>
-              </div>
 
-              <ul
-                tabIndex={0}
-                className="menu bg-gray-700 text-white menu-sm dropdown-content  rounded-box z-50 w-52 p-2 shadow opacity-0 group-hover:opacity-100  invisible group-hover:visible transition-all duration-200"
-              >
-                <li className="hover:bg-gray-600 hover:rounded-lg">
-                  <a className="justify-between">
-                    {user.displayName || user.name}
-                  </a>
-                </li>
-                <li className="hover:bg-gray-600 hover:rounded-lg">
-                  <Link onClick={handleLogout}>Logout</Link>
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <>
-              <Link to="/auth/login">
-                <button className="btn bg-red-600 border-none hover:bg-red-700 text-white">
-                  Login
-                </button>
-              </Link>
-              <Link to="/auth/register">
-                <button className="btn bg-red-600 border-none hover:bg-red-700 text-white">
-                  Register
-                </button>
-              </Link>
-            </>
-          )}
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost right-0 pr-0 mr-0 lg:hidden"
-            >
-              <FiMenu className="text-2xl" />
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-gray-800 text-white rounded-box z-50 mt-3 w-52 p-2 -right-2  shadow"
-            >
-              <li>
-                <NavLink
-                  to="/home"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-red-500 font-bold"
-                      : "text-white hover:text-red-500"
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/all-movies"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-red-500 font-bold"
-                      : "text-white hover:text-red-500"
-                  }
-                >
-                  All Movies
-                </NavLink>
-              </li>
-              {user && (
-                <>
-                  <li>
-                    <NavLink
-                      to="/add-movie"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-red-500 font-bold"
-                          : "text-white hover:text-red-500"
-                      }
-                    >
-                      Add Movie
-                    </NavLink>
-                  </li>
-                  <li>
-                    <Link
-                      to={`/my-favorites/${user.email}`}
-                      className="text-white hover:text-red-500"
-                    >
-                      My Favorites
-                    </Link>
-                  </li>
-                </>
+              {!user && (
+                <Link to="/auth/register" className="md:hidden mt-2">
+                  <Button className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white">
+                    Register
+                  </Button>
+                </Link>
               )}
-              <li>
-                <NavLink
-                  to="/about-us"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-red-500 font-bold"
-                      : "text-white hover:text-red-500"
-                  }
-                >
-                  About Us
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }
