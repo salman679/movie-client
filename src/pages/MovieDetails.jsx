@@ -1,3 +1,4 @@
+import { PropTypes } from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -6,18 +7,21 @@ import {
   Heart,
   Pencil,
   Trash2,
-  ArrowLeft,
   Star,
   Clock,
   Calendar,
+  Film,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState({});
+  const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [similarLoading, setSimilarLoading] = useState(true);
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,6 +35,8 @@ export default function MovieDetails() {
       confirmButtonColor: "#dc2626",
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
+      background: "#1f2937",
+      color: "#fff",
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${import.meta.env.VITE_api}/movie/${id}`, {
@@ -44,6 +50,8 @@ export default function MovieDetails() {
                 text: "The movie has been deleted.",
                 icon: "success",
                 confirmButtonColor: "#dc2626",
+                background: "#1f2937",
+                color: "#fff",
               });
               navigate("/all-movies");
             }
@@ -71,6 +79,8 @@ export default function MovieDetails() {
             text: "Movie already exists in favorite",
             icon: "error",
             confirmButtonColor: "#dc2626",
+            background: "#1f2937",
+            color: "#fff",
           });
         } else {
           return res.json();
@@ -83,6 +93,8 @@ export default function MovieDetails() {
             text: "Movie has been added to favorite.",
             icon: "success",
             confirmButtonColor: "#dc2626",
+            background: "#1f2937",
+            color: "#fff",
           });
         }
       })
@@ -91,13 +103,34 @@ export default function MovieDetails() {
       );
   }
 
+  // Fetch movie details
   useEffect(() => {
     setLoading(true);
+
+    // First fetch the current movie details
     fetch(`${import.meta.env.VITE_api}/movie/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
         setLoading(false);
+
+        // After getting movie details, fetch all movies and filter by genre
+        setSimilarLoading(true);
+        fetch(`${import.meta.env.VITE_api}/all-movies`)
+          .then((res) => res.json())
+          .then((allMovies) => {
+            // Filter movies by the same genre and exclude current movie
+            const filtered = allMovies
+              .filter((m) => m.genre === data.genre && m._id !== id)
+              .slice(0, 5); // Limit to 5 similar movies
+
+            setSimilarMovies(filtered);
+            setSimilarLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching all movies:", error);
+            setSimilarLoading(false);
+          });
       })
       .catch((error) => {
         console.error("Error fetching movie details:", error);
@@ -105,9 +138,49 @@ export default function MovieDetails() {
       });
   }, [id]);
 
+  // Similar Movie Card Component
+  const SimilarMovieCard = ({ movie }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+      onClick={() => navigate(`/movie/${movie._id}`)}
+    >
+      <div className="aspect-[2/3] bg-gray-800">
+        <img
+          src={movie.poster || "/placeholder.svg"}
+          alt={movie.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        <div className="absolute top-2 right-2">
+          <Badge className="bg-[#dc2626] hover:bg-[#b91c1c] text-white">
+            {movie.rating} <Star className="ml-1 h-3 w-3 fill-white" />
+          </Badge>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black to-transparent">
+          <h3 className="text-white font-medium text-sm line-clamp-1">
+            {movie.title}
+          </h3>
+          <div className="flex items-center text-xs text-gray-300 mt-1">
+            <Clock className="w-3 h-3 mr-1" />
+            <span>{movie.duration} mins</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  SimilarMovieCard.propTypes = {
+    movie: PropTypes.object.isRequired,
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-900">
         <div className="w-16 h-16 border-4 border-t-4 border-t-[#dc2626] border-gray-200 rounded-full animate-spin"></div>
       </div>
     );
@@ -125,16 +198,6 @@ export default function MovieDetails() {
       >
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
         <div className="absolute inset-0 bg-black/40"></div>
-
-        {/* Back Button */}
-        <Button
-          variant="ghost"
-          className="absolute top-4 left-4 text-white hover:bg-white/20 z-10"
-          onClick={() => navigate("/all-movies")}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Movies
-        </Button>
       </div>
 
       <div className="container mx-auto px-4 -mt-32 relative z-10">
@@ -222,7 +285,7 @@ export default function MovieDetails() {
                     <Button
                       onClick={() => navigate(`/update-movie/${movie._id}`)}
                       variant="outline"
-                      className="border-yellow-500 text-yellow-500 hover:text-white hover:bg-yellow-500/10"
+                      className="border-yellow-500 text-yellow-500 hover:text-yellow-500 hover:bg-yellow-500/10"
                     >
                       <Pencil className="mr-2 h-4 w-4" />
                       Update
@@ -230,7 +293,7 @@ export default function MovieDetails() {
                     <Button
                       onClick={() => handleDeleteMovie(movie._id)}
                       variant="outline"
-                      className="border-red-500 hover:text-white text-red-500 hover:bg-red-500/10"
+                      className="border-red-500 text-red-500 hover:text-red-500 hover:bg-red-500/10"
                     >
                       <Trash2 className="mr-2 h-4 w-4" />
                       Delete
@@ -241,25 +304,51 @@ export default function MovieDetails() {
             </div>
           </motion.div>
 
-          {/* Similar Movies Section (Placeholder) */}
+          {/* Similar Movies Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-12 mb-16"
           >
-            <h2 className="text-2xl font-bold text-white mb-6">
-              You Might Also Like
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {/* This is just a placeholder. You would need to fetch similar movies */}
-              {[1, 2, 3, 4, 5].map((_, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-800/50 rounded-lg h-48 animate-pulse"
-                ></div>
-              ))}
+            <div className="flex items-center mb-6">
+              <Film className="w-5 h-5 text-[#dc2626] mr-2" />
+              <h2 className="text-2xl font-bold text-white">
+                You Might Also Like
+              </h2>
             </div>
+
+            {similarLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[1, 2, 3, 4, 5].map((_, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-800 rounded-lg aspect-[2/3] animate-pulse"
+                  >
+                    <Skeleton className="w-full h-full bg-gray-700" />
+                  </div>
+                ))}
+              </div>
+            ) : similarMovies.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {similarMovies.map((movie) => (
+                  <SimilarMovieCard key={movie._id} movie={movie} />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-gray-800/50 rounded-lg p-8 text-center">
+                <p className="text-gray-400">
+                  No similar movies found in the {movie.genre} genre.
+                </p>
+                <Button
+                  onClick={() => navigate("/all-movies")}
+                  variant="outline"
+                  className="mt-4 border-gray-700 text-gray-300 hover:text-white hover:border-[#dc2626]"
+                >
+                  Browse All Movies
+                </Button>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>

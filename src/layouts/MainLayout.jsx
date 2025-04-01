@@ -8,6 +8,7 @@ export default function MainLayout() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
