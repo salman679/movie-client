@@ -11,7 +11,7 @@ export default function Home() {
       </section>
 
       {/* Featured Categories Section */}
-      <section className="py-8 bg-gradient-to-b from-black to-gray-900">
+      {/* <section className="py-8 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +49,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Movie Sections */}
       <MovieSection />

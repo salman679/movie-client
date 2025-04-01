@@ -343,7 +343,7 @@ export default function MovieDetails() {
                 <Button
                   onClick={() => navigate("/all-movies")}
                   variant="outline"
-                  className="mt-4 border-gray-700 text-gray-300 hover:text-white hover:border-[#dc2626]"
+                  className="mt-4 border-gray-700 text-gray-600 hover:border-[#dc2626]"
                 >
                   Browse All Movies
                 </Button>

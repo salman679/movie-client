@@ -274,15 +274,15 @@ export default function AllMovies() {
               onClick={() => setFiltersOpen(!filtersOpen)}
             >
               {filtersOpen ? (
-                <>
+                <div className="flex items-center text-gray-600">
                   <X className="w-4 h-4 mr-2" />
                   Hide Filters
-                </>
+                </div>
               ) : (
-                <>
+                <div className="flex items-center text-gray-600">
                   <Filter className="w-4 h-4 mr-2" />
                   Filters
-                </>
+                </div>
               )}
             </Button>
 
@@ -413,7 +413,7 @@ export default function AllMovies() {
               <Button
                 variant="outline"
                 onClick={resetFilters}
-                className="border-gray-600 text-gray-300 hover:text-white"
+                className="border-gray-600 text-gray-600 "
               >
                 Reset Filters
               </Button>
