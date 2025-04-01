@@ -29,9 +29,6 @@ Welcome to **Movie Portal** – a user-friendly platform for exploring, adding, 
 - **MongoDB & Mongoose** – NoSQL database for movie storage.
 - **Firebase Authentication** – Secure user login & registration.
 
-## 📸 Screenshots *(Add screenshots here!)*
-
-
 ```
 
 ## 🚀 Installation & Setup
@@ -82,8 +79,8 @@ Want to contribute? Feel free to fork the repository, create a feature branch, a
 
 ## 📞 Contact
 ✉️ **Md Salman Izhar**  
-🌍 [Your Portfolio](www.salmanizhar.com)  
-🐦 [Twitter](#) | 💼 [LinkedIn](#)  
+🌍 [Portfolio](https://www.salmanizhar.com/)  
+💼 [LinkedIn](https://www.linkedin.com/in/salman-izhar)  
 
 ---
 
